@@ -533,7 +533,7 @@
       $(document).ready(function(){
         $("#my_ach_button").click(function(){
             var a_type = $("input[name = 'a_type']:checked").val();
-            alert(a_type);
+            // alert(a_type);
             var description = $("[name = 'description']").val();
             var wl = $("input[name = 'wl']:checked").val();
             var certificate = $("[name = 'certificate']").val();
@@ -565,9 +565,9 @@
            updateda.push($('#bloodgrp').val());
            updateda.push($('#email').val());
            var updated = updateda.toString();
-           alert(id);
+          //  alert(id);
            $.post('backend_query.php',{updated:updated}).done(function(data){
-             alert(data);
+            //  alert(data);
            });
          });
        });

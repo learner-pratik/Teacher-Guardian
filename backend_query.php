@@ -26,9 +26,9 @@
     $wl = $_POST['wl'];
     $certificate = $_POST['certificate'];
     // echo "function called";
-    // send_mail($id, $a_type, $description, $wl, $certificate);
     $q2 = "INSERT INTO achivements VALUES ($id,'$a_type','$description','$wl','$certificate');";
     $query2 = mysqli_query($conn,$q2);
+    // send_mail($id, $a_type, $description, $wl, $certificate);
     echo $query2;
   }
   if(isset($_POST['something'])){
@@ -120,7 +120,7 @@
   }
 
   function send_mail($sid, $a_type, $description, $wl, $certificate){
-            
+      echo "function called hurray";      
     $mail = new PHPMailer(true);
     global $conn;
 
@@ -130,8 +130,8 @@
         $mail->isSMTP();                                            // Send using SMTP
         $mail->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through
         $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-        $mail->Username   = 'pratiknaik4799@gmail.com';                     // SMTP username
-        $mail->Password   = 'uzumakinaruto@4799';                               // SMTP password
+        $mail->Username   = 'xyz@gmail.com';                     // SMTP username
+        $mail->Password   = '*****';                               // SMTP password
         $mail->SMTPSecure = 'ssl';         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
         $mail->Port       = 465;           // TCP port to connect to
 
@@ -140,8 +140,8 @@
         //Recipients
         $mail->setFrom('xyx@naikcorp.com', 'XYZ');
         // $mail->addAddress('joe@example.net', 'Joe User');     // Add a recipient
-        $mail->addAddress('siddesh.pn23@gmail.com');               // Name is optional
-        $mail->addReplyTo('pratiknaik4799@gmail.com', 'Reply');
+        $mail->addAddress('hod@gmail.com');               // Name is optional
+        $mail->addReplyTo('xyz@gmail.com', 'Reply');
         // $mail->addCC('cc@example.com');
         // $mail->addBCC('bcc@example.com');
 
