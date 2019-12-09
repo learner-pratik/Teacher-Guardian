@@ -21,18 +21,19 @@
                 padding: 10px;
             }
             .thumbnail{
-                width: 200px;
-                height: 200px;
+                width: 100%;
+                height: 100%;
                 /* margin-left: 80px; */
                 border-radius: 50%; 
+                padding: 3%; 
             }
             .heading{
-                width: 220px;
-                height: 220px;
-                margin: 20px 0 20px 55px;
+                width: 60%;
+                height: 30%;
+                margin: 5% 0 5% 15%;
                 background-color: #66FCF1;
                 border-radius: 100%;
-                padding: 10px;
+                padding: 3%;
             }
             .details{
                 color: #66FCF1;
@@ -161,7 +162,7 @@
                         ?>
                         <h4><?php echo $teacher['First'].' '.$teacher['Middle'].' '.$teacher['Last']; ?></h4>
                         <br>
-                        <h5>Date of Birth: <?php echo $teacher['Date_of_Birth']; ?></h5>
+                        <h5>Date of Birth: <?php $dat=date_create($teacher['Date_of_Birth']); echo date_format($dat,"d/m/Y"); ?></h5>
                         <br>
                         <h5>Address: <?php echo $teacher['Location']; ?></h5>
                         <br>
@@ -207,11 +208,14 @@
                                     //print_r($classstu);
                                         while($rows=mysqli_fetch_assoc($classstu)){
                                             //echo $rows["FIrst"].' '.$rows["Middle"].' '.$rows["Last"];
+                                            $d=$rows["Date_of_birth"];
+                                            $dat1=date_create($d);
+                                            $date1=date_format($dat1,"d/m/Y");
                                             echo('
                                                 <tr class="clickrow" data-href="student_info.php?id='.$rows["student_id"].'">
                                                     <td>'.$rows["student_id"].'</td>
                                                     <th>'.$rows["First"].' '.$rows["Middle"].' '.$rows["Last"] .'</th>
-                                                    <th>'.$rows["Date_of_birth"].'</th>
+                                                    <th>'.$date1.'</th>
                                                     <th>'.$rows["Study_year"]. '</th>
                                                     <th>'.$rows["Division"].'</th>
                                                     <td>'.$rows["Roll_no"].'</td>

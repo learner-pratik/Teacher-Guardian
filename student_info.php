@@ -27,18 +27,19 @@
                 overflow: scroll;
             }
             .thumbnail{
-                width: 200px;
-                height: 200px;
+                width: 100%;
+                height: 100%;
                 /* margin-left: 80px; */
                 border-radius: 50%; 
+                padding: 3%; 
             }
             .heading{
-                width: 220px;
-                height: 220px;
-                margin: 20px 0 20px 55px;
+                width: 60%;
+                height: 30%;
+                margin: 5% 0 5% 15%;
                 background-color: #66FCF1;
                 border-radius: 100%;
-                padding: 10px;
+                padding: 3%;
             }
             .details{
                 color: #66FCF1;
@@ -157,7 +158,7 @@
                         }
                         ?>
                         <br>
-                        <h4>Date of Birth: <?php echo $student['Date_of_birth']; ?></h4>
+                        <h4>Date of Birth: <?php $dat=date_create($student['Date_of_birth']); echo date_format($dat,"d/m/Y"); ?></h4>
                         <br>
                         <h4>Blood Group: <?php echo $student['Blood_grp']; ?></h4>
                         <br>

@@ -140,13 +140,16 @@
                             //$q2 = "select Email_id from professor_email where professor_id = '".$rows['professor_id']."' ";
                             //$query2 = mysqli_query($conn, $q2);
                             //$query2 = mysqli_fetch_array($query2);
+                            $d=$rows["Date_of_Birth"];
+                            $dat1=date_create($d);
+                            $date1=date_format($dat1,"d/m/Y");
                     ?>
                     <tr class="details">
                         <td><?php echo $rows['professor_id']; ?></td>
                         <td><?php echo $rows['First']; ?></td>
                         <td><?php echo $rows['Middle']; ?></td>
                         <td><?php echo $rows['Last']; ?></td>
-                        <td><?php echo $rows['Date_of_Birth']; ?></td>
+                        <td><?php echo $date1 ?></td>
                         <td><?php echo $rows['Email_id']; ?></td>
                         <td><?php echo $rows['Role']; ?></td>
                         <td><?php echo $rows['Year']; ?></td>

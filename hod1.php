@@ -31,18 +31,19 @@
                 position: sticky;
             }
             .thumbnail{
-                width: 200px;
-                height: 200px;
+                width: 100%;
+                height: 100%;
                 /* margin-left: 80px; */
                 border-radius: 50%; 
+                padding: 3%;
             }
             .heading{
-                width: 220px;
-                height: 220px;
-                margin: 20px 0 20px 55px;
+                width: 60%;
+                height: 30%;
+                margin: 5% 0 5% 15%;
                 background-color: #66FCF1;
                 border-radius: 100%;
-                padding: 10px;
+                padding: 1%;
             }
             .details{
                 color: #66FCF1;
@@ -191,6 +192,7 @@
             $qh = "select * from professor natural join prof_address natural join professor_email where professor_id=1233";
             $hod = mysqli_query($conn, $qh);
             $detail = mysqli_fetch_assoc($hod);
+            $date = $detail['Date_of_Birth'];
         ?>
         <script>
             function fstudents() {
@@ -308,12 +310,12 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="container text-center heading">
-                        <img src="contact.jpg" alt="pratik" class="thumbnail">
+                        <img src="contact.jpg" alt="Head of Department" class="thumbnail">
                     </div>
                     <div class="container details">
                         <h4><?php echo $detail['First'].' '.$detail['Middle'].' '.$detail['Last']; ?></h4>
                         <br>
-                        <h5>Date of Birth: <?php echo $detail['Date_of_Birth']; ?></h5>
+                        <h5>Date of Birth: <?php $dat=date_create($date); echo date_format($dat,"d/m/Y"); ?></h5>
                         <br>
                         <h5>Address: <?php echo $detail['Location']; ?></h5>
                         <br>
@@ -379,12 +381,16 @@
                                     <tbody>
                                         <?php 
                                             while($rows=mysqli_fetch_assoc($stud)){
+                                                $d=$rows["Date_of_birth"];
+                                                $dat1=date_create($d);
+                                            $date1=date_format($dat1,"d/m/Y");
+
                                             //echo $rows["FIrst"].' '.$rows["Middle"].' '.$rows["Last"];
                                             echo('
                                             <tr class="clickrow" data-href="student_infohod.php?id='.$rows["student_id"].'">
                             
                                                 <th>'.$rows["First"].' '.$rows["Middle"].' '.$rows["Last"] .'</th>
-                                                <th>'.$rows["Date_of_birth"].'</th>
+                                                <th>'.$date1.'</th>
                                                 <th>'.$rows["Study_year"]. '</th>
                                                 <th>'.$rows["Division"].'</th>
                                                 <th>'.$rows["Batch"].'</th>
@@ -409,11 +415,13 @@
                                         <?php 
                                         while($rows=mysqli_fetch_assoc($profess)){
                                             //echo $rows["FIrst"].' '.$rows["Middle"].' '.$rows["Last"];
+                                            $dat=date_create($rows["Date_of_Birth"]);
+                                            $date=date_format($dat,"d/m/Y");
                                             echo('
                                             <tr class="clickrow" data-href="teacher_info.php?id='.$rows["professor_id"].'">
                             
                                                 <th>'.$rows["First"].' '.$rows["Middle"].' '.$rows["Last"] .'</th>
-                                                <th>'.$rows["Date_of_Birth"].'</th>
+                                                <th>'.$date.'</th>
                                                 <th>'.$rows["Year"]. '</th>
                                                 <th>'.$rows["Division"].'</th>
                                                 <th>'.$rows["Batch"].'</th>

@@ -1,3 +1,4 @@
+<?php session_start() ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -103,8 +104,17 @@
                     <input id="roll" type="number" class="form-control" name="roll" placeholder="ROLLNO" required>
                 </div>
                 <div class="form-group">
-                    <label for="first">Batch: </label>
+                    <label for="batch">Batch: </label>
                     <input id="batch" type="number" class="form-control" name="batch" placeholder="Batch">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email: </label>
+                    <input id="email" type="email" class="form-control" name="email" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <label for="address">Address: </label>
+                    <!-- <input id="batch" type="number" class="form-control" name="batch" placeholder="Batch"> -->
+                    <textarea id="address" type="text" class="form-control" name="address" rows="3" cols="40"></textarea>
                 </div>
                 <button type="submit" class="btn btn-lg btn-primary">Submit</button>
             </form>
@@ -133,10 +143,16 @@
             $div = test_input($_POST["div"]);
             $roll  = test_input($_POST["roll"]);
             $batch = (int)test_input($_POST["batch"]);
+            $mail  = test_input($_POST["email"]);
+            $location = $_POST["address"];
     
             $q5 = "insert into students (student_id, First, Middle, Last, Date_of_Birth, Study_year, Admission_year, Division, Roll_no, Batch)
                     values ($sid, '$fname', '$mname', '$lname', '$date', $year, $add_year, '$div', $roll, $batch)";
             if(mysqli_query($conn, $q5)){
+                $q6 = "insert into student_email values ($sid, '$mail')";
+                mysqli_query($conn, $q6);
+                $q7 = "insert into student_address values ($sid, '$location')";
+                mysqli_query($conn, $q7);
                 echo "Added Successfully";
                 header("Location: admin_panel.php");
             }

@@ -21,17 +21,19 @@
                 padding: 10px;
             }
             .thumbnail{
-                width: 200px;
-                height: 200px;
+                width: 100%;
+                height: 100%;
+                /* margin-left: 80px; */
                 border-radius: 50%; 
+                padding: 3%; 
             }
             .heading{
-                width: 220px;
-                height: 220px;          
+                width: 60%;
+                height: 30%;
+                margin: 5% 0 5% 15%;
                 background-color: #66FCF1;
                 border-radius: 100%;
-                padding: 10px;
-                margin-top: 20px;
+                padding: 3%;
             }
             .container-fluid{
                 /* margin-right: 40px; */
@@ -66,7 +68,7 @@
                 ?>
                 <h1><?php echo $professor['First'].' '.$professor['Middle'].' '.$professor['Last']; ?></h1>
                 <br>
-                <h3>Date of Birth: <?php echo $professor['Date_of_Birth']; ?></h3>
+                <h3>Date of Birth: <?php $dat=date_create($professor['Date_of_Birth']); echo date_format($dat,"d/m/Y"); ?></h3>
                 <br>
                 <h3>Email: <?php echo $professor['Email_id']; ?></h3>
                 <br>
