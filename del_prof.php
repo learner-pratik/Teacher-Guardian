@@ -56,48 +56,6 @@
             color: #0B0C10;
         }
     </style>
-
-    <style>
-        body{
-            background-color: #C5C6C7;
-        }
-        .container{
-            margin-top: 50px;
-            width: 600px;
-            background-color: #1F2833;
-        }
-        .jumbotron{
-            background-color: #0B0C10;
-            width: 100%;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-        .heading{
-            color: #45A29E;
-            font-size: 60px;
-        }
-        .form-group{
-            color: #66FCF1;
-            font-size: 25px;
-        }
-        .form-control{
-            background-color: #C5C6C7;
-        }
-        .form-control::placeholder{
-            color: #0B0C10;
-        }
-        .btn{
-            margin-left: 40%;
-            margin-bottom: 10px;
-            background-color: #0B0C10;
-            border: 1px solid #66FCF1;
-            color: #66FCF1;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-        }
-        button:hover{
-            background-color: #4FA29E;
-            color: #0B0C10;
-        }
-    </style>
 </head>
 <body>
     <div class="container">

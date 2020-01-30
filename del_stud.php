@@ -60,7 +60,7 @@
 <body>
     <div class="container">
         <div class="jumbotrom text-center">
-            <h2  class="heading">Delete Professor</h2>
+            <h2  class="heading">Delete Student</h2>
             <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">&times;</button>
         </div>
         <div class="container-fluid">
