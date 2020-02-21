@@ -6,11 +6,13 @@
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
+    use PhpOffice\PhpSpreadsheet\IOFactory;
+    use PhpOffice\PhpSpreadsheet\Helper\Sample;
 
     // Load Composer's autoloader
     require 'C:/Users/hp/vendor/autoload.php';
+    require 'C:/xampp/htdocs/dashboard/Teacher-Guardian/phpspreadsheet/vendor/phpoffice/phpspreadsheet/src/Bootstrap.php';
 
-    use Twilio\Rest\Client;
 
 ?>
 <!DOCTYPE html>
@@ -82,9 +84,6 @@
         <div class="container-fluid">
             <form method="POST">
                 <div class="form-group">
-                    <label for="sid">Student ID: <?php echo $_GET['id']; ?> </label>
-                </div>
-                <div class="form-group">
                     <label for="sem">Semester: </label>
                     <input id="sem" type="number" class="form-control" name="sem" placeholder="Semester" required>
                 </div>
@@ -98,7 +97,7 @@
                 </div>
                 <div class="form-group">
                     <label for="att">Attendance(in percent): </label>
-                    <input id="att" type="number" class="form-control" name="att" placeholder="Attendance" required>
+                    <input id="att" type="file" class="form-control" name="att" placeholder="Attendance" required>
                 </div>
                 <button type="submit" class="btn btn-lg btn-primary">Submit</button>
             </form>
@@ -106,36 +105,116 @@
     </div>
 
     <?php
+
+        // if(!empty($_POST)){
+        //     $sid = (int)$_GET['id'];
+        //     $sem = (int)test_input($_POST["sem"]);
+        //     $year = (int)test_input($_POST["year"]);
+        //     $month = test_input($_POST["mon"]);
+        //     $attend = (int)test_input($_POST["att"]);
+
+        //     if($attend<75){
+        //         send_mail($sid, $sem, $year, $month, $attend);
+        //     }
+    
+        //     $q5 = "insert into attendance values ($sid, $sem, $year, '$month', $attend)";
+        //     if(mysqli_query($conn, $q5)){
+        //         echo "Added Successfully";
+        //         $_SESSION['id']=$sid;
+        //         header("Location: student_info.php?id=$sid");
+        //     }
+    
+        //     mysqli_close($conn);
+        // }
+
+        $helper = new Sample();
+
+        $id = $_GET['id'];
+
         $servername="localhost";
         //add below line in every file. It displays error for all sql querries.
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-        $conn = mysqli_connect($servername,"root","","computer_dept") ;
-    
-        // Check connection
+        $conn = mysqli_connect($servername,"root","","dmce_computer") ;
+
         if (!$conn) {
             die("Connection failed: " . mysqli_connect_error());
         }
 
         if(!empty($_POST)){
-            $sid = (int)$_GET['id'];
+
+            $inputFileType = 'Xlsx';
+
             $sem = (int)test_input($_POST["sem"]);
             $year = (int)test_input($_POST["year"]);
             $month = test_input($_POST["mon"]);
-            $attend = (int)test_input($_POST["att"]);
+            $inputFileName = __DIR__ . '\phpspreadsheet\vendor\phpoffice\phpspreadsheet\samples\Reader\sampleData\college-attend.xlsx';
 
-            if($attend<75){
-                send_mail($sid, $sem, $year, $month, $attend);
+            // $helper->log('Loading file ' . pathinfo($inputFileName, PATHINFO_BASENAME) . ' using IOFactory with a defined reader type of ' . $inputFileType);
+            $reader = IOFactory::createReader($inputFileType);
+            // $helper->log('Turning Formatting off for Load');
+            $reader->setReadDataOnly(true);
+            $spreadsheet = $reader->load($inputFileName);
+
+            $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+            // var_dump($sheetData);
+            $x = 0;
+            for($row=1; $row <= count($sheetData) ; $row++){
+                // echo implode(" ", $sheetData[$row]);
+                // echo "<br>";
+                for($col=0; $col <= 18; $col++){
+                    $regex = '/^Roll/';
+                    $regex1 = '/Attd+/';
+                    $val = $sheetData[$row][chr($col+65)];
+                    if (is_null($val)){
+                        // echo "Hello";
+                        continue;
+                    }
+                    elseif (preg_match($regex, $val)){
+                        // echo "Match found";
+                        // echo $val;
+                        $x = 1;
+                        $c = chr($col+65);
+                        $r = $row;
+                    }
+                    if(preg_match($regex1, $val)){
+                        // echo "Attend";
+                        $c1 = chr($col+65);
+                    }
+                }
+                if ($x==1){
+                    break;
+                }
             }
-    
-            $q5 = "insert into attendance values ($sid, $sem, $year, '$month', $attend)";
-            if(mysqli_query($conn, $q5)){
-                echo "Added Successfully";
-                $_SESSION['id']=$sid;
-                header("Location: student_info.php?id=$sid");
+            
+            $error_val = 0;
+
+            for( $row = $r+1; $row <= count($sheetData); $row++){
+                $val = $sheetData[$row][$c];
+                if(strpos($val, ' ') !== false){
+                    break;
+                }
+                if(!is_null($val)){
+                    $stud_id = $sheetData[$row][$c];
+                    $attendance = $sheetData[$row][$c1];
+                    // if($attendance<75){
+                    //     send_mail($stud_id, $sem, $year, $month, $attendance);
+                    // }
+                    $sql = "insert into attendance values ('$stud_id', $sem, $year, '$month', $attendance)";
+                    if(mysqli_query($conn, $sql)){
+                        // echo "Row inserted successfully <br>";
+                    }
+                    else{
+                        $error_val = 1;
+                        break;
+                    }
+                }
             }
-    
-            mysqli_close($conn);
+            if($error_val==0){
+                echo "Row inserted successfully <br>";
+                // header("Location: teacher3.php?id=$id");
+            }
         }
+
 
         function test_input($data) {
             $data = trim($data);

@@ -114,8 +114,13 @@
                 </div>
                 <div class="col-md-9">
                     <div class="container text-center">
-                        <div class="jumbotron text-center">
-                            <h1>Student Database</h1>
+                        <div>
+                            <div class="jumbotron text-center">
+                                <h1>Student Database</h1>
+                            </div>
+                            <div class="jumbotron text-center">
+                                <a href="add_attend.php?id=$id" class="btn btn-primary btn-lg" type="button">Add attendance</a>
+                            </div>
                         </div>
                         <table class="table">
                             <thead>
@@ -131,15 +136,15 @@
                             </thead>
                             <tbody>
                                 <?php
-                                    $id = $_SESSION['id'];
+                                    $id1 = $_SESSION['id'];
                                     if($teacher['Role']=='Incharge'){
                                         $q2 = "select * from students as s, 
-                                                (select Division, Year from prof_rol where professor_id = '$id') as p
+                                                (select Division, Year from prof_rol where professor_id = '$id1') as p
                                                 where s.Division = p.Division and s.Study_year = p.Year";
                                     }
                                     else if($teacher['Role']=='Guardian'){
                                         $q2 = "select * from students as s,
-                                                ( select Division,Year,Batch from prof_rol where professor_id = '$id') as p
+                                                ( select Division,Year,Batch from prof_rol where professor_id = '$id1') as p
                                                 where s.Division = p.Division and Study_year = p.Year and s.Batch=p.Batch";
                                     }
                                     $query2 = mysqli_query($conn, $q2);
